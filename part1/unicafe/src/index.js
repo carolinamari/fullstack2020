@@ -6,6 +6,15 @@ const Statistics = (props) => {
   const all = props.good + props.neutral + props.bad
   const weighted = props.good*1 + props.neutral*0 + props.bad*(-1)
 
+  if (all === 0) {
+    return (
+      <div>
+        <h1>Statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
+
   return (
     <div>
       <h1>Statistics</h1>
