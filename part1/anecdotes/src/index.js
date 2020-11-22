@@ -5,6 +5,15 @@ import ReactDOM from 'react-dom'
 const Button = (props) => 
   <button onClick={props.handleClick}>{props.text}</button>
 
+const Anecdote = (props) => {
+  return (
+    <div>
+      <div>{props.quote}</div>
+      <div>has {props.votes} votes</div>
+    </div>
+  )
+}
+
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(Array(props.anecdotes.length).fill(0))
@@ -23,14 +32,31 @@ const App = (props) => {
     setVotes(updatedVotes)
   }
 
+  const getMostVotedAnecdote = () => {
+    let maxIndex = 0
+    let mostVotes = votes[maxIndex]
+    
+    for (let i = 1; i < props.anecdotes.length; i++) {
+      if (votes[i] > mostVotes) {
+        maxIndex = i
+        mostVotes = votes[i]
+      }
+    }
+
+    return maxIndex
+  }
+
+  const mostVoted = getMostVotedAnecdote()
+
   return (
     <div>
-      <div>
-        {props.anecdotes[selected]}
-      </div>
-      <div>has {votes[selected]} votes</div>
+      <h1>Anecdote of the day</h1>
+      <Anecdote quote={props.anecdotes[selected]} votes={votes[selected]} />
       <Button handleClick={upvoteAnecdote} text="vote" />
-      <Button handleClick={getNextAnecdote} text="next anecdote" />     
+      <Button handleClick={getNextAnecdote} text="next anecdote" />
+
+      <h1>Anecdote with most votes</h1>  
+      <Anecdote quote={props.anecdotes[mostVoted]} votes={votes[mostVoted]} />
     </div>
   )
 }
