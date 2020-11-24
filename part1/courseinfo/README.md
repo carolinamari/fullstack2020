@@ -1,3 +1,2 @@
-### Solutions for Exercises 1.1.-1.2.
-- Course information: step 1
-- Course information: step 2
+### App Course Information 
+Solutions for Exercises 1.1 - 1.5
