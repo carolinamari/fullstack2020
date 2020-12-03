@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Filter from './components/Filter'
-import Countries from './components/Countries'
+import QueryResults from './components/QueryResults'
 
 
 const App = () => {
@@ -19,6 +19,7 @@ const App = () => {
   }, [])
 
   const handleFilterChange = (event) => setFilterValue(event.target.value)
+  const handleButtonClick = (event) => setFilterValue(event.target.id)
 
   const countriesToShow = countries.filter(country => 
     country.name.toLowerCase().includes(filterValue.toLowerCase())
@@ -27,7 +28,7 @@ const App = () => {
   return (
     <div>
       <Filter value={filterValue} handleChange={handleFilterChange} />
-      <Countries countries={countriesToShow} />
+      <QueryResults countries={countriesToShow} handleClick={handleButtonClick} />
     </div>
   )
 }
