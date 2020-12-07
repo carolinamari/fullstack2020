@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
-import axios from 'axios'
+import phonebookService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -19,16 +19,15 @@ const App = () => {
     } 
 
     else {
-      const nameObject = {
+      const personObject = {
         name: newName,
         number: newNumber
       }
 
-      axios
-        .post('http://localhost:3001/persons', nameObject)
-        .then(response => {
-          console.log('Response.data: ', response.data)
-          setPersons(persons.concat(response.data))
+      phonebookService
+        .create(personObject)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
         })
@@ -41,17 +40,13 @@ const App = () => {
 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
 
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise resolved')
-        setPersons(response.data)
+  useEffect(() => {
+    phonebookService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
-  }
-
-  useEffect(hook, [])
+  }, [])
 
   return (
     <div>
