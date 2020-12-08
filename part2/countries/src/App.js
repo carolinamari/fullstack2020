@@ -19,7 +19,7 @@ const App = () => {
   }, [])
 
   const handleFilterChange = (event) => setFilterValue(event.target.value)
-  const handleButtonClick = (event) => setFilterValue(event.target.id)
+  const handleButtonClick = (countryName) => setFilterValue(countryName)
 
   const countriesToShow = countries.filter(country => 
     country.name.toLowerCase().includes(filterValue.toLowerCase())

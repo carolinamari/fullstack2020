@@ -16,7 +16,7 @@ const QueryResults = ({ countries, handleClick }) => {
         { countries.map((country) => 
           <div key={country.name}>
             {country.name} 
-            <button id={country.name} onClick={handleClick}>Show</button>
+            <button id={country.name} onClick={() => handleClick(country.name)}>Show</button>
           </div>
         )}
       </div>
