@@ -10,7 +10,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setFilterName ] = useState('')
 
-  const addName = (event) => {
+  const addPerson = (event) => {
     event.preventDefault()
     const nameExists = persons.some(person => person.name === newName)
 
@@ -34,6 +34,17 @@ const App = () => {
     }
   }
 
+  const deletePerson = (id) => {
+    const p = persons.find(person => person.id === id)
+    const confirmDelete = window.confirm(`Delete ${p.name}?`)
+
+    if (confirmDelete) {
+      phonebookService
+        .deleteObject(id)
+        .then(() => setPersons(persons.filter(person => person.id !== id)))
+    }
+  }
+
   const handleNameChange = (event) => setNewName(event.target.value)
   const handleNumberChange = (event) => setNewNumber(event.target.value)
   const handleFilterChange = (event) => setFilterName(event.target.value)
@@ -54,11 +65,11 @@ const App = () => {
       <Filter value={filterName} handleChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm 
-        handleSubmit={addName} newName={newName} handleNameChange={handleNameChange}
+        handleSubmit={addPerson} newName={newName} handleNameChange={handleNameChange}
         newNumber={newNumber} handleNumberChange={handleNumberChange} 
       />
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} handleClick={deletePerson} />
     </div>
   )
 }
