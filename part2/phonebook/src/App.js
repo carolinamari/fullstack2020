@@ -11,6 +11,25 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setFilterName ] = useState('')
   const [ notificationMessage, setNotificationMessage ] = useState(null)
+  const [ notificationStyle, setNotificationStyle ] = useState(null)
+
+  const successStyle = {
+    color: '#C4FF7A',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+
+  const errorStyle = {
+    color: '#FF9674',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -29,9 +48,10 @@ const App = () => {
             setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
+            setNotificationStyle(successStyle)
             setNotificationMessage(`Updated ${returnedPerson.name}`)
 
-            setTimeout(() => setNotificationMessage(null), 5000)
+            setTimeout(() => setNotificationMessage(null), 4000)
           })
       }
     } 
@@ -48,9 +68,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setNotificationStyle(successStyle)
           setNotificationMessage(`Added ${returnedPerson.name}`)
 
-          setTimeout(() => setNotificationMessage(null), 5000)
+          setTimeout(() => setNotificationMessage(null), 4000)
         })
     }
   }
@@ -63,6 +84,12 @@ const App = () => {
       phonebookService
         .deleteObject(id)
         .then(() => setPersons(persons.filter(person => person.id !== id)))
+        .catch(error => {
+          setNotificationStyle(errorStyle)
+          setNotificationMessage(`Information of ${p.name} has already been removed from server.`, notificationStyle)
+          setTimeout(() => setNotificationMessage(null), 4000)
+          setPersons(persons.filter(person => person.id !== id))
+        })
     }
   }
 
@@ -83,7 +110,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage} messageStyle={notificationStyle} />
       <Filter value={filterName} handleChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm 
