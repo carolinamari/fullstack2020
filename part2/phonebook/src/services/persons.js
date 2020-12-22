@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseURL = 'http://localhost:3001/api/persons'
+const baseURL = '/api/persons'
 
 const getAll = () => {
   return axios.get(baseURL).then(response => response.data)
@@ -17,4 +17,6 @@ const update = (id, newObject) => {
   return axios.put(`${baseURL}/${id}`, newObject).then(response => response.data)
 }
 
-export default { getAll, create, deleteObject, update }
+const phonebookService = { getAll, create, deleteObject, update }
+
+export default phonebookService
