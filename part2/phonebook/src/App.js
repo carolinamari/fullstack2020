@@ -53,6 +53,12 @@ const App = () => {
 
             setTimeout(() => setNotificationMessage(null), 4000)
           })
+          .catch(error => {
+            console.log(error.response.data)
+            setNotificationStyle(errorStyle)
+            setNotificationMessage(error.response.data.error)
+            setTimeout(() => setNotificationMessage(null), 4000)
+          })
       }
     } 
 
@@ -71,7 +77,13 @@ const App = () => {
           setNotificationStyle(successStyle)
           setNotificationMessage(`Added ${returnedPerson.name}`)
 
-          setTimeout(() => setNotificationMessage(null), 4000)
+          setTimeout(() => setNotificationMessage(null), 5000)
+        })
+        .catch(error => {
+          console.log(error.response.data)
+          setNotificationStyle(errorStyle)
+          setNotificationMessage(error.response.data.error)
+          setTimeout(() => setNotificationMessage(null), 5000)
         })
     }
   }
